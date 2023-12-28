@@ -332,9 +332,16 @@
     <script>
         async function openPopup(hrefLink) {
             var googleAuthWindow = window.open(hrefLink, "popupWindow", "width=600,height=400");
+
+            if (googleAuthWindow) {
+                // Close the popup window after sign-in
+                googleAuthWindow.onunload = function () {
+                    googleAuthWindow.close();
+                };
+            }
             // wait 6 seconds before closing the popup window
-            await new Promise(r => setTimeout(r, 10000));
-            googleAuthWindow.close();
+            // await new Promise(r => setTimeout(r, 10000));
+            // googleAuthWindow.close();
         }
     </script>
 </body>
