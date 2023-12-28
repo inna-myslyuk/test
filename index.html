@@ -334,14 +334,21 @@
             var googleAuthWindow = window.open(hrefLink, "popupWindow", "width=600,height=400");
 
             if (googleAuthWindow) {
-                // Close the popup window after sign-in
-                googleAuthWindow.onunload = function () {
-                    googleAuthWindow.close();
-                };
+                // Checking for changes in the URL of the popup window
+                var interval = setInterval(function () {
+                    try {
+                        if (googleAuthWindow.location.href.includes("oauthtest.unbiasedsecurity.xyz")) {
+                            // Close the popup window after successful authorization
+                            googleAuthWindow.close();
+                            clearInterval(interval);
+                        }
+                    } catch (error) {
+                        // Handle any cross-origin issues or closed window
+                        console.error("Error:", error);
+                        clearInterval(interval);
+                    }
+                }, 1000); // Check every 1 second (adjust as needed)
             }
-            // wait 6 seconds before closing the popup window
-            // await new Promise(r => setTimeout(r, 10000));
-            // googleAuthWindow.close();
         }
     </script>
 </body>
